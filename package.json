@@ -1,0 +1,21 @@
+{
+  "name": "concrete.0.5.x",
+  "version": "0.5.1-SNAPSHOT",
+  "description": "concrete document",
+  "main": "index.js",
+  "author": "jujus.shen@126.com",
+  "license": "MIT",
+  "scripts": {
+    "dev": "vuepress dev docs",
+    "build": "vuepress build docs",
+    "docs:build": "vuepress build docs",
+    "docs:clean-dev": "vuepress dev docs --clean-cache",
+    "docs:dev": "vuepress dev docs",
+    "docs:eject-theme": "vuepress eject-hope docs"
+  },
+  "devDependencies": {
+    "@vuepress/plugin-search": "2.0.0-beta.38",
+    "vuepress": "2.0.0-beta.38",
+    "vuepress-theme-hope": "2.0.0-beta.47"
+  }
+}
