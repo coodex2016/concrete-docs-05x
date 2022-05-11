@@ -8,7 +8,7 @@ Concrete 是一种基于java的服务定义规范。尝试通过服务定义规�
 
 这也是Concrete的价值观，通过对应用中较通用技术模式在不失扩展性的前提下进行封装来剥离应用开发者的关注点，将精力放到更有价值的事上。
 
-concrete当前版本为0.5.1-SNAPSHOT，已发布到[sonatype](https://oss.sonatype.org/)的快照库中。本文档编写完成时，会发布0.5.1到中央库。
+concrete当前版本为0.5.1-RC2，已发布到中央库。
 
 [项目地址 https://github.com/coodex2016/concrete.coodex.org](https://github.com/coodex2016/concrete.coodex.org) 欢迎fork，欢迎提issue
 
