@@ -6,7 +6,7 @@
 
 ## 示例
 
-我们设计一个新的AddService，它负责处理个位数加法，超出范围时，给调用者返回一个太难了的异常信息。
+我们设计一个新的 AddService，它负责处理个位数加法，超出范围时，给调用者返回一个太难了的异常信息。
 
 在`demo-api`模块中，定义一个`DemoErrorCodes`类，用来放异常码常量
 
@@ -14,17 +14,22 @@
 package org.coodex.concrete.demo.api;
 
 import org.coodex.concrete.api.ErrorCode;
+import org.coodex.concrete.api.ErrorCodeDef;
 
 import static org.coodex.concrete.common.ErrorCodeConstants.CUSTOM_LOWER_BOUND;
 
 @ErrorCode("demo")// 声明此类型是错误码定义，相关定义的命名空间为demo
-public class DemoErrorCodes {
+public class DemoErrorCodes implements ErrorCodeDef {
     protected static final int DEMO_BASED = CUSTOM_LOWER_BOUND + 5000;
 
     @ErrorCode.Key("too_hard")// 指明消息模板的key为 demo(命名空间).too_hard
     public static final int TOO_HARD = DEMO_BASED + 1;
 }
 ```
+
+::: tip
+实现`org.coodex.concrete.api.ErrorCodeDef`并放入`java SPI`中，可达到自动注册异常码。
+:::
 
 新建十以内加法服务
 
@@ -58,7 +63,7 @@ demo:
   too_hard: "{0} + {1} 太难了 ~>_<~"
 ```
 
-在`demo-impl`模块增加实现。先增加`concrete-core`的依赖，在`concrete-core`中，对ErrorCode规范有一套默认实现，开箱即用。
+在`demo-impl`模块增加实现。先增加`concrete-core`的依赖，在`concrete-core`中，对 ErrorCode 规范有一套默认实现，开箱即用。
 
 ```xml
 <dependency>
@@ -92,18 +97,18 @@ public class AddWithIn10ServiceImpl implements AddWithIn10Service {
 ```
 
 ::: tip
-IF是concrete工具链提供的工具之一，[点我查看](../concrete-core/IF.md)
+IF 是 concrete 工具链提供的工具之一，[点我查看](../concrete-core/IF.md)
 :::
 
-还有个工作，上一步中，我们开启了mock，因此需要把这个服务例外出来
+还有个工作，上一步中，我们开启了 mock，因此需要把这个服务例外出来
 
-`demo-boot`的test作用域中的`mock.excepted`中增加
+`demo-boot`的 test 作用域中的`mock.excepted`中增加
 
 ```txt
 org.coodex.concrete.demo.api.AddWithIn10Service
 ```
 
-跑起来，然后用swagger试试
+跑起来，然后用 swagger 试试
 
 x1=1,x2=2，结果是正确的，3
 
@@ -125,10 +130,10 @@ x1=10,x2=2，结果如下：
 }
 ```
 
-`concrete`的errorCode机制使用了`coodex-utilities`的[`I18N`](https://docs.coodex.org/lib/coodex-utilities/org.coodex.util.I18N.html)服务，很好的支持了国际化。
+`concrete`的 errorCode 机制使用了`coodex-utilities`的[`I18N`](https://docs.coodex.org/lib/coodex-utilities/org.coodex.util.I18N.html)服务，很好的支持了国际化。
 
 ::: note
-本案例中ErrorCode和Service在同一个包下，如果你的工程分开维护，记得把ErrorCodes的包或者类也注册到Application中
+本案例中 ErrorCode 和 Service 在同一个包下，如果你的工程分开维护，记得把 ErrorCodes 的包或者类也注册到 Application 中
 :::
 
 <!-- ## 数据渲染
@@ -137,11 +142,11 @@ concrete提供两种数据渲染方式，默认为基于`java.text.MessageFormat
 
 ## 进阶
 
-`Concrete`的异常模板使用的是[`coodex`数据渲染器](https://docs.coodex.org/lib/coodex-utilities/org.coodex.util.Renderer.html)，如果你需要对freemarker模板的支持，需要依赖`org.coodex:coodex-renderer-freemarker`
+`Concrete`的异常模板使用的是[`coodex`数据渲染器](https://docs.coodex.org/lib/coodex-utilities/org.coodex.util.Renderer.html)，如果你需要对 freemarker 模板的支持，需要依赖`org.coodex:coodex-renderer-freemarker`
 
-我们再拿一个service专门演示各种ErrorCode的使用。
+我们再拿一个 service 专门演示各种 ErrorCode 的使用。
 
-- 新建service
+- 新建 service
 
 ```java
 package org.coodex.concrete.demo.api;
@@ -165,7 +170,7 @@ public interface ErrorCodeService {
 
 ```
 
-- 增加errorCode定义
+- 增加 errorCode 定义
 
 ```java
 
@@ -185,7 +190,7 @@ public interface ErrorCodeService {
     public static final int FREE_MARKER_EXAMPLE = DEMO_BASED + 5;
 ```
 
-- demo_zh_CN.yml中增加NONE_ANNOTATION(demo.105002)的模板
+- demo_zh_CN.yml 中增加 NONE_ANNOTATION(demo.105002)的模板
 
 ```yml
 demo:
@@ -193,7 +198,7 @@ demo:
   105002: 我是105002错误信息
 ```
 
-- demo-impl中增加实现
+- demo-impl 中增加实现
 
 ```java
 package org.coodex.concrete.demo.impl;
@@ -239,7 +244,7 @@ public class ErrorCodeServiceImpl implements ErrorCodeService {
 </dependency>
 ```
 
-跑起来。我们针对这四种情况分别在swagger中分别尝试一下:
+跑起来。我们针对这四种情况分别在 swagger 中分别尝试一下:
 
 ### 无配置
 
@@ -250,11 +255,11 @@ public class ErrorCodeServiceImpl implements ErrorCodeService {
 }
 ```
 
-没有对错误码声明注解的，将使用错误号的`命名空间.错误码值`作为模板key来渲染。命名空间(@ErrorCode的value)默认为`message`。
+没有对错误码声明注解的，将使用错误号的`命名空间.错误码值`作为模板 key 来渲染。命名空间(@ErrorCode 的 value)默认为`message`。
 
-注意，声明了ErrorCode但是没有被注册到Concrete中，将无法读取错误的配置信息，按照默认行为指定模板key，也就是`message.错误码值`。
+注意，声明了 ErrorCode 但是没有被注册到 Concrete 中，将无法读取错误的配置信息，按照默认行为指定模板 key，也就是`message.错误码值`。
 
-### 使用Template注解
+### 使用 Template 注解
 
 ```json
 {
@@ -263,9 +268,9 @@ public class ErrorCodeServiceImpl implements ErrorCodeService {
 }
 ```
 
-可以看到，此错误信息直接使用了@ErrorCode.Template注解的内容作为模板渲染了错误细腻
+可以看到，此错误信息直接使用了@ErrorCode.Template 注解的内容作为模板渲染了错误细腻
 
-### freeMaker模板
+### freeMaker 模板
 
 ```json
 {
@@ -285,16 +290,16 @@ public class ErrorCodeServiceImpl implements ErrorCodeService {
 }
 ```
 
-这个错误码定义了@ErrorCode.Key，但是资源文件中并没有这个定义，所以直接使用key进行渲染
+这个错误码定义了@ErrorCode.Key，但是资源文件中并没有这个定义，所以直接使用 key 进行渲染
 
 ### 最佳实践
 
 虽然说上面的例子各种情况都可以很好的运行，但是不同模式在实践方面还是有一定的不足：
 
-- 不配置，或配置了不注册到concrete运行中：资源文件只能按照`命名空间`.`错误码值`方式来组织，可读性差
-- 使用@ErrorCode.Template注解：与代码紧耦合，扩展性差，无法I18N
+- 不配置，或配置了不注册到 concrete 运行中：资源文件只能按照`命名空间`.`错误码值`方式来组织，可读性差
+- 使用`@ErrorCode.Template` 注解：与代码紧耦合，扩展性差，无法 I18N
 
-因此，我们推荐使用@ErrorCode.Key对每个错误码进行可读性注解，并且把ErrorCode类都注入到concrete环境中
+因此，我们推荐使用`@ErrorCode.Key` 对每个错误码进行可读性注解，并且把 ErrorCode 类都注入到 concrete 环境中
 
 ## 团队协作如何减少冲突？
 
