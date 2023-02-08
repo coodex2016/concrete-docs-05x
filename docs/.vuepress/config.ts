@@ -24,13 +24,13 @@ export default defineUserConfig({
       link: "/",
     }, {
       text: 'Usage',
-      collapsable: true,
+      collapsible: true,
       link: '/usage/',
       prefix: '/usage/',
       children: usage
     }]),
 
-    copyright: "© coodex.org 2014-2022 all right reserved",
+    copyright: "© coodex.org 2014-2023 all right reserved",
     // footer:`<div><strong><font size="7">壕</font>，请用<font size="5">金钱</font>尽情<font size="6">羞辱</font>我<font size="7">！</font></strong></div><button id="rewardButton" disable="enable" onclick="var qr = document.getElementById('QR'); if (qr.style.display === 'none') {qr.style.display='block';} else {qr.style.display='none'}"><span>好哒</span></button><div id="QR" style="display: none;"><div id="wechat" style="display: inline-block"><a href="/images/donate_wechat.png" class="fancybox" rel="group"><img id="wechat_qr" src="/images/donate_wechat.png" alt="WeChat Pay"></a><p>微信打赏</p></div><div id="alipay" style="display: inline-block"><a href="/images/donate_alipay.png" class="fancybox" rel="group"><img id="alipay_qr" src="/images/donate_alipay.png" alt="Alipay"></a><p>支付宝打赏</p></div></div>`,
     displayFooter: true,
 
@@ -44,7 +44,7 @@ export default defineUserConfig({
       sitemap: false,
       pwa: false,
       copyright: {
-        hostname: "https://concrete.coodex.org",
+        // hostname: "https://concrete.coodex.org",
         author: "'Davidoff Shen'<jujus.shen@126.com>",
         global: true,
       },
@@ -68,7 +68,7 @@ export default defineUserConfig({
         sup: true,
         sub: true,
         footnote: true,
-        lazyLoad: true,
+        // lazyLoad: true,
         tasklist: true,
         flowchart: true,
         mermaid: true,
